@@ -9,7 +9,7 @@
 # TODO:
 #	Handle www-url-encoding details
 #
-# CVS: $Id: uri.tcl 1233 2007-03-09 16:12:10Z jcw $
+# CVS: $Id: uri.tcl 1097 2006-01-12 09:00:23Z jcw $
 
 package provide uri 1.0
 

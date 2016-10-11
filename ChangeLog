@@ -1,3 +1,6 @@
+2008-02-24  jcw
+   * mk{info,pack,split}.tcl: fixed to run on 64-bit arch, see tip at FFF#463
+   * ftp_lib.tcl: restore package provide version to 1.2, see FFF#232
 2007-04-08  jcw
    * tgz2kit.tcl: fix file/dir type detection, copy file mtime to result file
 2007-04-07  jcw

@@ -12,7 +12,7 @@
 # With this information we can setup a suitable filter procedure for the
 # Tcl http package and arrange for automatic use of the proxy.
 #
-# @(#)$Id: autoproxy.tcl 1233 2007-03-09 16:12:10Z jcw $
+# @(#)$Id: autoproxy.tcl 1097 2006-01-12 09:00:23Z jcw $
 
 namespace eval autoproxy {
     variable proxy

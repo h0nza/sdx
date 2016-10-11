@@ -49,7 +49,7 @@
 #
 ########################################################################
 
-package provide FTP [lindex {$Revision: 1233 $} 1]
+package provide FTP 1.2
 
 namespace eval FTP {
 

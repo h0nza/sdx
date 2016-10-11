@@ -249,7 +249,7 @@ proc mkFileStart {filename} {
   }
 
   # avoid negative sign / overflow issues
-  if {[format %x $a] eq "80000000"} {
+  if {[format %x [expr {$a & 0xffffffff}]] eq "80000000"} {
     set start [expr {$end - 16 - $b}]
   } else {
     # if the file is in commit-progress state, we need to do more

@@ -23,7 +23,7 @@
 # See the file "license.terms" for information on usage and redistribution
 # of this file, and for a DISCLAIMER OF ALL WARRANTIES.
 # -------------------------------------------------------------------------
-# $Id: crc16.tcl 1233 2007-03-09 16:12:10Z jcw $
+# $Id: crc16.tcl 1097 2006-01-12 09:00:23Z jcw $
 
 
 namespace eval crc {
