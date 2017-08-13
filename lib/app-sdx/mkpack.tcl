@@ -3,7 +3,7 @@
 # Re-pack a starkit/starpack or MK datafile (header is kept intact)
 # Jan 2004, jcw@equi4.com
 
-proc fail {msg} { puts stderr "${::inf}: $msg"; exit 1 }
+proc fail {msg} { variable inf; puts stderr "$inf: $msg"; exit 1 }
 
 if {[llength $argv] != 2} {
   set inf usage

@@ -4,7 +4,7 @@
 # derived from mkinfo.tcl code
 # Jan 2004, jcw@equi4.com
 
-proc fail {msg} { puts stderr "${::filename}: $msg"; exit 1 }
+proc fail {msg} { variable filename; puts stderr "$filename: $msg"; exit 1 }
 
 if {[llength $argv] < 1} {
   set filename usage

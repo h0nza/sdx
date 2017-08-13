@@ -60,7 +60,8 @@ while {[set header [read $fd 512]] != ""} {
 close $fd
 
 proc cleandir {{d ""}} {
-  set f [expr {![info exists ::dirs($d/)]}]
+  variable dirs
+  set f [expr {![info exists dirs($d/)]}]
   foreach x [glob -nocomplain [file join $d *]] {
     incr f [expr {[file isdir $x] ? [cleandir $x] : 1}]
   }

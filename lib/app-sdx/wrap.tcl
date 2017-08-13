@@ -64,16 +64,6 @@ proc LoadHeader {filename} {
     puts stderr "file in use, cannot be prefix: [file normalize $filename]"
     exit 1
   }
-  set size [file size $filename]
-  catch {
-    package require vfs::mk4
-    vfs::mk4::Mount $filename hdr -readonly
-    # we only look for an icon if the runtime is called *.exe (!)
-    if {[string tolower [file extension $filename]] == ".exe"} {
-      catch { set ::origicon [readfile hdr/tclkit.ico] }
-    }
-  }
-  catch { vfs::unmount $filename }
   return [readfile $filename]
 }
 
@@ -109,12 +99,20 @@ while {[string match -* $a]} {
     -runtime {
       set pfile [lindex $argv 2]
       if {$pfile == $out} {
-      	set reusefile 1
-      } else {
-      	set header [LoadHeader $pfile]
+        set reusefile 1
       }
+      set header [LoadHeader $pfile]
       set argv [lreplace $argv 1 2]
       set prefix 1
+      catch {
+        package require vfs::mk4
+        vfs::mk4::Mount $pfile $pfile -readonly
+        # we only look for an icon if the runtime is called *.exe (!)
+        if {[string tolower [file extension $pfile]] == ".exe"} {
+          catch { set origicon [readfile [file join $pfile tclkit.ico]] }
+        }
+      }
+      catch { vfs::unmount $pfile }
     }
     -writable -
     -writeable {
@@ -223,7 +221,15 @@ if {[info exists origicon] && [file exists [file join $idir tclkit.ico]]} {
       }
     }
   }
-  writefile $out $header
+  if {$reusefile} {
+    set fd [open $out a+]
+    fconfigure $fd -translation binary
+    seek $fd 0
+    puts -nonewline $fd $header
+    close $fd
+  } else {
+    writefile $out $header
+  }
 }
 
 # 2005-03-15 added AF's code to customize version/description strings in exe's
@@ -276,15 +282,23 @@ if {![catch { package require Mk4tcl }]} {
 
   source [file join [file dirname [info script]] sync.tcl] 
 
-    # 2003-06-19: new "-uncomp name" option to store specific file(s)
-    #		    in uncompressed form, even if the rest is compressed
-  set o $vfs::mk4::compress
-  set vfs::mk4::compress 0
+  # 2003-06-19: new "-uncomp name" option to store specific file(s)
+  #                 in uncompressed form, even if the rest is compressed
+  if {[info exists vfs::mk4::compress]} {
+    set o $vfs::mk4::compress
+  }
+  if {[namespace exists vfs::mk4]} {
+    set vfs::mk4::compress 0
+  }
   foreach f $explist {
     file delete -force [file join $out $f]
     file copy [file join $idir $f] [file join $out $f]
   }
-  set vfs::mk4::compress $o
+  if {[info exists o]} {
+    set vfs::mk4::compress $o
+  } elseif {[namespace exists vfs::mk4]} {
+    unset vfs::mk4::compress
+  }
 
   vfs::unmount $out
 } elseif {![catch { package require vlerq }]} {
