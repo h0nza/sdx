@@ -141,4 +141,5 @@ proc ::sdx::sdx {command args} {
     return {*}$options [string trim $Output[set Output {}]]
 }
 
+package provide sdx 1.1
 # vim: set sts=4 sw=4 tw=80 et ft=tcl:
