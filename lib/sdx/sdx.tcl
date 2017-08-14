@@ -131,7 +131,7 @@ proc ::sdx::sdx {command args} {
         # Unmount leftover filesystems.
         foreach filesystem [vfs::filesystem info] {
             if {$filesystem ni $filesystems} {
-                vfs::filesystem unmount $filesystem
+                vfs::unmount $filesystem
             }
         }
     }
